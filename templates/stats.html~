@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>📊 통계 페이지</h2>
+
+<hr>
+
+<h3>🧠 감정 분석 비율</h3>
+<ul>
+  {% for row in emotion_stats %}
+    <li>{{ row.dominant }} : {{ row.count }}회</li>
+  {% else %}
+    <li>감정 데이터가 없습니다.</li>
+  {% endfor %}
+</ul>
+
+<hr>
+
+<h3>🎮 2048 최고 점수</h3>
+<p>
+  {% if max_score %}
+    최고 점수: <strong>{{ max_score }}</strong>
+  {% else %}
+    아직 점수가 없습니다.
+  {% endif %}
+</p>
+
+<hr>
+
+<h3>🕹 최근 2048 점수</h3>
+<ul>
+  {% for row in recent_scores %}
+    <li>{{ row.score }} 점 ({{ row.created_at }})</li>
+  {% else %}
+    <li>최근 점수가 없습니다.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
+

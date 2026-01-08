@@ -1,0 +1,50 @@
+from flask import Blueprint, render_template
+from decorators import login_required
+import sqlite3
+
+stats_bp = Blueprint("stats", __name__)
+
+def get_db():
+    conn = sqlite3.connect("users.db")
+    conn.row_factory = sqlite3.Row
+    return conn
+
+@stats_bp.route("/stats")
+@login_required
+def stats():
+    conn = get_db()
+    cur = conn.cursor()
+
+    # 1. 감정 비율 (대문자로 통일해서 집계)
+    cur.execute("""
+        SELECT UPPER(dominant) as dominant, COUNT(*) as count
+        FROM emotion_logs
+        GROUP BY UPPER(dominant)
+    """)
+    emotion_stats = cur.fetchall()
+
+    # 2. 2048 최고 점수
+    cur.execute("""
+        SELECT MAX(score) as max_score
+        FROM game_scores
+    """)
+    max_score = cur.fetchone()["max_score"]
+
+    # 3. 최근 점수 5개
+    cur.execute("""
+        SELECT score, created_at
+        FROM game_scores
+        ORDER BY created_at DESC
+        LIMIT 5
+    """)
+    recent_scores = cur.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "stats.html",
+        emotion_stats=emotion_stats,
+        max_score=max_score,
+        recent_scores=recent_scores
+    )
+

@@ -1,0 +1,20 @@
+.top-nav {
+  background: #0f172a;   /* 진한 블랙 */
+  color: #fff;
+  padding: 14px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-nav a {
+  color: #e5e7eb;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.top-nav a:hover {
+  color: #38bdf8;
+}
+

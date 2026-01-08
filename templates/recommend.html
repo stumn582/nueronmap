@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>감정 기반 뉴스 추천</h2>
+
+{% if not emotion %}
+    <p>아직 감정 일기를 작성하지 않았습니다.</p>
+{% else %}
+    <p><strong>최근 감정:</strong> {{ emotion }}</p>
+
+    {% if articles %}
+        <ul>
+        {% for article in articles %}
+            <li style="margin-bottom:15px;">
+                <a href="{{ article.url }}" target="_blank">
+                    <strong>{{ article.title }}</strong>
+                </a><br>
+                <small>{{ article.source.name }}</small><br>
+                <span>{{ article.description }}</span>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>추천할 뉴스가 없습니다.</p>
+    {% endif %}
+{% endif %}
+
+{% endblock %}
+

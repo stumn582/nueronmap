@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    container_name: flask_web
+    restart: always
+    volumes:
+      - .:/app
+      - ./users.db:/app/users.db
+      - ~/.aws:/root/.aws:ro
+    expose:
+      - "8000"
+
+  nginx:
+    image: nginx:latest
+    container_name: flask_nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - web

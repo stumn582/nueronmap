@@ -1,0 +1,23 @@
+<nav class="nav">
+    <div class="logo">Stream</div>
+    <div class="menu">
+        <a href="/">홈</a>
+        <a href="/diary">감정 일기</a>
+        <a href="/game">2048 게임</a>
+        <a href="/stats">통계</a>
+        <a href="/news">뉴스</a>
+        <a href="/recommend">추천</a>
+
+        {% if session.get('is_admin') %}
+            <a href="/admin" class="admin">관리자</a>
+        {% endif %}
+
+        {% if session.get('user_id') %}
+            <a href="/logout" class="logout">로그아웃</a>
+        {% else %}
+            <a href="/login">로그인</a>
+            <a href="/register">회원가입</a>
+        {% endif %}
+    </div>
+</nav>
+

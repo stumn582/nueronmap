@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}감정 일기{% endblock %}
+
+{% block content %}
+<h2>📓 감정 일기</h2>
+
+<form action="/diary/analyze" method="post" class="diary-form">
+    <textarea name="diary" rows="6" placeholder="오늘 하루를 적어보세요...">{{ diary if diary else "" }}</textarea>
+    <br>
+    <button type="submit" class="btn">감정 분석하기</button>
+</form>
+
+{% if result %}
+<div class="result-card">
+
+    <h3>
+        🧠 오늘의 감정:
+        {% if result['dominant'] == 'POSITIVE' %}긍정
+        {% elif result['dominant'] == 'NEGATIVE' %}부정
+        {% elif result['dominant'] == 'NEUTRAL' %}중립
+        {% else %}혼합
+        {% endif %}
+    </h3>
+
+
+    {% if result['score'] %}
+    {% for key, value in result['score'].items() %}
+    <div class="bar-row">
+
+        <span class="label">
+            {% if key == 'POSITIVE' %}긍정
+            {% elif key == 'NEGATIVE' %}부정
+            {% elif key == 'NEUTRAL' %}중립
+            {% else %}혼합{% endif %}
+        </span>
+
+        <div class="bar-bg">
+            <div class="bar-fill {% if result['dominant'] and key == result['dominant'] %}active{% endif %}"
+                 style="width: {{ (value * 100) | round(0) }}%">
+            </div>
+        </div>
+
+        <span class="percent">
+            {% if result['dominant'] and key == result['dominant'] %}
+            <strong>{{ (value * 100) | round(0) }}%</strong>
+            {% else %}
+            {{ (value * 100) | round(0) }}%
+            {% endif %}
+        </span>
+
+    </div>
+    {% endfor %}
+    {% endif %}
+
+</div>
+{% endif %}
+
+{% endblock %}
+

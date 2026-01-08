@@ -1,0 +1,210 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+}
+
+/* 전체 컨테이너 */
+main {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+header {
+    background: #1f2933;
+    color: white;
+    padding: 20px 0;
+}
+
+header h1 {
+    text-align: center;
+    margin: 0;
+    font-size: 28px;
+}
+
+nav {
+    margin-top: 10px;
+    text-align: center;
+}
+
+nav a {
+    color: #d1d5db;
+    margin: 0 12px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: #ffffff;
+    border-bottom: 2px solid #3b82f6;
+}
+/* 전체 배경 화려하게 */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    margin: 0;
+    padding: 0;
+}
+
+/* 메인 영역 중앙 정렬 */
+.home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+/* 카드 링크 (밑줄 제거) */
+.game-card-link {
+    text-decoration: none;
+}
+
+/* 2048 카드 박스 */
+.game-card {
+    background: white;
+    width: 320px;
+    padding: 40px 20px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.game-card h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.game-card p {
+    color: #666;
+    font-size: 14px;
+}
+
+/* 마우스 올렸을 때 */
+.game-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+}
+.diary-form textarea {
+    width: 100%;
+    max-width: 600px;
+    padding: 15px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+.result-card {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9fafb;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: inline-block;
+}
+/* Hero 영역 */
+.hero {
+    text-align: center;
+    margin: 60px 0 40px 0;
+}
+
+.hero h1 {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #d1d5db;
+    line-height: 1.6;
+}
+
+/* 카드 영역 */
+.card-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.card-link {
+    text-decoration: none;
+}
+
+.service-card {
+    width: 280px;
+    padding: 30px;
+    background: white;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #111827;
+}
+
+.service-card p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.service-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+}
+.bar-container {
+    margin-top: 20px;
+}
+
+.bar-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.label {
+    width: 80px;
+    font-size: 13px;
+}
+
+.bar-bg {
+    flex: 1;
+    background: #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 14px;
+    margin: 0 10px;
+}
+
+.bar-fill {
+    height: 100%;
+    background: #9ca3af;
+    border-radius: 8px;
+    transition: width 0.6s ease;
+}
+
+/* 🔥 가장 강한 감정 강조 */
+.bar-fill.active {
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+}
+
+.percent {
+    width: 40px;
+    font-size: 12px;
+    text-align: right;
+}
+

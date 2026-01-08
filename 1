@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Stream Project Site{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/2048.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+{% include "components/header.html" %}
+
+<button onclick="toggleDarkMode()" class="dark-btn">🌙</button>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+{% include "components/footer.html" %}
+
+{% block extra_js %}{% endblock %}
+<script src="{{ url_for('static', filename='js/scroll.js') }}"></script>
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+
+</body>
+</html>
+

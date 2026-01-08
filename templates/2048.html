@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}2048 게임{% endblock %}
+
+{% block content %}
+<section class="game-page">
+  <h2 class="game-title">🎮 2048 게임</h2>
+
+  <div class="game-wrapper">
+    <div id="game-container"></div>
+
+    <button class="btn restart-btn" onclick="restartGame()">다시 시작</button>
+  </div>
+</div>
+
+<!-- ✅ 2048 전용 JS 로드 -->
+<script src="{{ url_for('static', filename='js/2048.js') }}"></script>
+{% endblock %}
+
