@@ -9,12 +9,9 @@ NEWS_API_KEY = os.getenv("NEWSAPI_KEY")
 
 # 감정 → 키워드 매핑
 EMOTION_KEYWORD_MAP = {
-    "HAPPY": ["success", "festival", "celebration", "entertainment"],
-    "SAD": ["healing", "hope", "inspiration", "good news"],
-    "ANGRY": ["justice", "crime", "law", "investigation"],
-    "CALM": ["nature", "travel", "meditation", "peace"],
-    "CONFUSED": ["analysis", "explainer", "insight"],
-    "FEAR": ["safety", "recovery", "support"]
+    "POSITIVE": ["행복", "기쁨", "축제", "성공", "웃음", "희망"],
+    "NEGATIVE": ["사건", "사고", "범죄", "논란", "위기", "문제"],
+    "NEUTRAL":  ["일상", "정보", "사회", "경제", "뉴스"]
 }
 
 @recommend_bp.route("/")
@@ -40,12 +37,13 @@ def recommend():
 
     emotion = row[0]
 
-    keywords = EMOTION_KEYWORD_MAP.get(emotion, ["news"])
+    keywords = ["행복", "기쁨", "성공", "희망", "축제", "웃음"]
     query = " OR ".join(keywords)
 
     url = "https://newsapi.org/v2/everything"
     params = {
         "q": query,
+        "language": "ko",
         "sortBy": "publishedAt",
         "pageSize": 10,
         "apiKey": NEWS_API_KEY
