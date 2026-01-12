@@ -1,52 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="diary-container">
     <div class="diary-card">
 
         <h2>📝 감정 일기</h2>
 
-        <form action="/diary/analyze" method="post" class="diary-form">
-            <textarea name="diary" placeholder="오늘 하루를 적어보세요...">{{ diary if diary else "" }}</textarea>
-            <button type="submit" class="btn">감정 분석하기</button>
-        </form>
+        <!-- 🔥 여기서부터 wrapper 시작 -->
+        <div class="analysis-wrapper">
 
-        {% if result %}
-        <div class="result-card">
-            <h3>
-                오늘의 감정:
-                {% if result['dominant'] == 'POSITIVE' %} 😊 긍정
-                {% elif result['dominant'] == 'NEGATIVE' %} 😞 부정
-                {% elif result['dominant'] == 'NEUTRAL' %} 😐 중립
-                {% else %} 혼합
-                {% endif %}
-            </h3>
+            <form action="/diary/analyze" method="post" class="diary-form">
+                <textarea name="diary" placeholder="오늘 하루를 적어보세요...">{{ diary if diary else "" }}</textarea>
+                <button type="submit" class="analyze-btn">감정 분석하기</button>
+            </form>
 
-            {% if result['score'] %}
-            {% for key, value in result['score'].items() %}
-            <div class="bar-row">
-                <span class="label">
-                    {% if key == 'POSITIVE' %}긍정
-                    {% elif key == 'NEGATIVE' %}부정
-                    {% elif key == 'NEUTRAL' %}중립
-                    {% else %}혼합
+            {% if result %}
+            <div class="result-box">
+                <h3>
+                    오늘의 감정 :
+                    {% if result['dominant'] == "POSITIVE" %} 😊 긍정
+                    {% elif result['dominant'] == "NEGATIVE" %} 😢 부정
+                    {% elif result['dominant'] == "NEUTRAL" %} 😐 중립
+                    {% else %} 🤔 혼합
                     {% endif %}
-                </span>
+                </h3>
 
-                <div class="bar-bg">
-                    <div class="bar-fill {% if result['dominant'] and key == result['dominant'] %}active{% endif %}"
-                         style="width: {{ (value * 100) | round(0) }}%"></div>
-                </div>
+                {% if result['score'] %}
+                    {% for key, value in result['score'].items() %}
+                    <div class="bar-row">
+                        <span class="label">
+                            {% if key == "POSITIVE" %} 긍정
+                            {% elif key == "NEGATIVE" %} 부정
+                            {% elif key == "NEUTRAL" %} 중립
+                            {% else %} 혼합
+                            {% endif %}
+                        </span>
 
-                <span class="percent">
-                    {{ (value * 100) | round(0) }}%
-                </span>
+                        <div class="bar-bg">
+                            <div class="bar-fill {% if result['dominant'] and key == result['dominant'] %}active{% endif %}"
+                                 style="width: {{ (value * 100) | round(0) }}%">
+                            </div>
+                        </div>
+
+                        <span class="percent">{{ (value * 100) | round(0) }}%</span>
+                    </div>
+                    {% endfor %}
+                {% endif %}
             </div>
-            {% endfor %}
             {% endif %}
+
         </div>
-        {% endif %}
+        <!-- 🔥 wrapper 끝 -->
 
     </div>
 </div>
+
 {% endblock %}
 

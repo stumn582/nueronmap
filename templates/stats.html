@@ -4,22 +4,25 @@
 
 <div class="stats-container">
 
+    <!-- 감정 분석 비율 -->
     <div class="stat-card">
         <h3>📊 감정 분석 비율</h3>
         <ul>
-            <li>NEGATIVE: {{ negative_count }}회</li>
-            <li>NEUTRAL: {{ neutral_count }}회</li>
-            <li>POSITIVE: {{ positive_count }}회</li>
+            {% for row in emotion_stats %}
+                <li>{{ row['dominant'] }}: {{ row['count'] }}회</li>
+            {% endfor %}
         </ul>
     </div>
 
+    <!-- 2048 최고 점수 -->
     <div class="stat-card">
         <h3>🏆 2048 최고 점수</h3>
         <p class="big-score">{{ max_score }}</p>
     </div>
 
+    <!-- 최근 2048 점수 -->
     <div class="stat-card">
-        <h3>🕒 최근 2048 점수</h3>
+        <h3>⏰ 최근 2048 점수</h3>
         <ul>
             {% for score, time in recent_scores %}
                 <li>{{ score }}점 ({{ time }})</li>
@@ -29,4 +32,139 @@
 
 </div>
 
+
+<!-- ================= 하단 확장 영역 ================= -->
+
+<div class="stats-bottom-grid">
+
+    <!-- 감정 달력 -->
+    <div class="calendar-box">
+        <div class="calendar-header">
+            <button id="prevMonth">◀</button>
+            <span id="currentMonth"></span>
+            <button id="nextMonth">▶</button>
+        </div>
+
+        <div class="calendar-weekdays">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+
+    <!-- 감정 변화 그래프 -->
+    <div class="chart-box">
+        <h3>📈 최근 감정 변화</h3>
+        <canvas id="emotionChart"></canvas>
+    </div>
+
+</div>
+
+<!-- 오늘의 한마디 -->
+<div class="quote-box">
+    🌱 오늘의 한마디
+    <p>{{ today_quote }}</p>
+</div>
+
+<!-- 감정 & 게임 상관관계 -->
+<div class="relation-box">
+    <h3>🎮 감정 & 게임 상관관계</h3>
+    <p>😊 긍정일 때 평균 점수: {{ relation.positive }} 점</p>
+    <p>😐 보통일 때 평균 점수: {{ relation.neutral }} 점</p>
+    <p>😢 부정일 때 평균 점수: {{ relation.negative }} 점</p>
+</div>
+
 {% endblock %}
+
+
+
+{% block extra_js %}
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const emotionMap = {{ emotion_map | tojson }};
+let currentDate = new Date();
+
+function renderCalendar() {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    document.getElementById("currentMonth").innerText = `${year}년 ${month + 1}월`;
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const lastDate = new Date(year, month + 1, 0).getDate();
+
+    const grid = document.getElementById("calendarGrid");
+    grid.innerHTML = "";
+
+    for (let i = 0; i < firstDay; i++) {
+        grid.innerHTML += `<div class="calendar-cell empty"></div>`;
+    }
+
+    for (let day = 1; day <= lastDate; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const emotion = emotionMap[dateStr];
+
+        let dot = "";
+        if (emotion === "positive") dot = `<span class="dot positive"></span>`;
+        if (emotion === "neutral")  dot = `<span class="dot neutral"></span>`;
+        if (emotion === "negative") dot = `<span class="dot negative"></span>`;
+
+        grid.innerHTML += `
+            <div class="calendar-cell">
+                <span class="date-number">${day}</span>
+                ${dot}
+            </div>
+        `;
+    }
+}
+
+document.getElementById("prevMonth").onclick = () => {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar();
+};
+
+document.getElementById("nextMonth").onclick = () => {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    renderCalendar();
+};
+
+renderCalendar();
+</script>
+
+<script>
+const ctx = document.getElementById('emotionChart');
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ emotion_dates | tojson }},
+        datasets: [{
+            label: '감정 변화',
+            data: {{ emotion_scores | tojson }},
+            tension: 0.4,
+            fill: false
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                min: -1,
+                max: 1,
+                ticks: {
+                    callback: function(value) {
+                        if (value === 1) return '긍정';
+                        if (value === 0) return '보통';
+                        if (value === -1) return '부정';
+                    }
+                }
+            }
+        }
+    }
+});
+</script>
+
+{% endblock %}
+
