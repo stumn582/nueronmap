@@ -2,34 +2,31 @@
 
 {% block content %}
 
-<div class="container stats-container">
+<div class="stats-container">
 
-    <h1 class="page-title">📊 통계 페이지</h1>
+    <div class="stat-card">
+        <h3>📊 감정 분석 비율</h3>
+        <ul>
+            <li>NEGATIVE: {{ negative_count }}회</li>
+            <li>NEUTRAL: {{ neutral_count }}회</li>
+            <li>POSITIVE: {{ positive_count }}회</li>
+        </ul>
+    </div>
 
-    <hr>
+    <div class="stat-card">
+        <h3>🏆 2048 최고 점수</h3>
+        <p class="big-score">{{ max_score }}</p>
+    </div>
 
-    <h2>🧠 감정 분석 비율</h2>
-    <ul>
-        {% for row in emotion_stats %}
-            <li>{{ row["dominant"] }} : {{ row["count"] }}회</li>
-        {% endfor %}
-    </ul>
-
-    <hr>
-
-    <h2>🎮 2048 최고 점수</h2>
-    <p>최고 점수: {{ max_score }}</p>
-
-    <hr>
-
-    <h2>🕒 최근 2048 점수</h2>
-    <ul>
-        {% for row in recent_scores %}
-            <li>{{ row["score"] }} 점 ({{ row["created_at"] }})</li>
-        {% endfor %}
-    </ul>
+    <div class="stat-card">
+        <h3>🕒 최근 2048 점수</h3>
+        <ul>
+            {% for score, time in recent_scores %}
+                <li>{{ score }}점 ({{ time }})</li>
+            {% endfor %}
+        </ul>
+    </div>
 
 </div>
 
 {% endblock %}
-

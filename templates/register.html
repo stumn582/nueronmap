@@ -1,12 +1,17 @@
-<h2 class="page-title">회원가입</h2>
+{% extends "base.html" %}
 
-<form method="post" class="auth-form">
-    <input type="text" name="username" placeholder="아이디" required>
-    <input type="password" name="password" placeholder="비밀번호" required>
-    <button type="submit">회원가입</button>
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>📝 회원가입</h2>
 
-    {% if error %}
-        <p class="error">{{ error }}</p>
-    {% endif %}
-</form>
+        <form method="POST">
+            <input type="text" name="username" placeholder="아이디" required>
+            <input type="password" name="password" placeholder="비밀번호" required>
+
+            <button type="submit">회원가입</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
 
